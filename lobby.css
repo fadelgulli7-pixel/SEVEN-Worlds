@@ -1,0 +1,71 @@
+#sniperLobby{display:none}
+body.sniper-lobby{height:100dvh;overflow:hidden;background:#131323;color:#f6f2e9}
+body.sniper-lobby #app{position:fixed;inset:0;opacity:0;pointer-events:none}
+body.sniper-lobby #sniperLobby{display:block;position:relative;z-index:3;height:100dvh;overflow-y:auto;overscroll-behavior:contain}
+.sl-shell{max-width:1112px;margin:auto;font-family:Inter,"Segoe UI",system-ui,sans-serif;background:#141421;color:#f3eee6;min-height:100%;padding:0 clamp(14px,3vw,42px)}
+.sl-shell *{box-sizing:border-box}
+.sl-header,.sl-wordmark,.sl-status,.sl-section-head,.sl-launch,.sl-nav button{display:flex;align-items:center}
+.sl-header,.sl-section-head{justify-content:space-between;gap:12px}
+.sl-header{height:70px;border-bottom:1px solid #ffffff20}
+.sl-wordmark{gap:9px}.sl-logo{width:37px;height:37px;border-radius:10px}.sl-wordmark strong{font-weight:850;letter-spacing:.09em;white-space:nowrap}.sl-wordmark em{font-style:normal;color:#d4a86b;font-weight:550;font-size:.8em;letter-spacing:.16em}
+.sl-status{gap:10px;font-size:12px;color:#c9c7ce;white-space:nowrap}.sl-status b{color:white}
+.sl-xp{display:block;width:52px;height:4px;background:#4b4856;border-radius:8px;overflow:hidden}.sl-xp i{display:block;height:100%;background:#e8bd76}
+.sl-shell button{font-family:inherit;cursor:pointer}.sl-shell button:focus-visible,#sniperSheet button:focus-visible{outline:3px solid #ffdd95;outline-offset:3px}
+.sl-status button{display:flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #e6c58b48;border-radius:18px;background:#28232a;min-height:36px}
+.sl-status i{font:italic bold 12px Georgia;border-radius:50%;background:#eac88d;color:#312119;width:17px;height:17px;display:grid;place-items:center}
+.sl-main{display:grid;gap:24px;padding:20px 0 24px}
+.sl-hero{position:relative;isolation:isolate;display:flex;align-items:flex-end;min-height:clamp(290px,33vw,385px);border-radius:20px;overflow:hidden;border:1px solid #edd8ac49;background:#302635}
+.sl-hero>img,.sl-farm img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.sl-hero:after,.sl-farm:after{content:"";position:absolute;inset:0;background:linear-gradient(80deg,#10101cd9,transparent 80%),linear-gradient(0deg,#10121ae8,transparent 70%);z-index:-1}
+.sl-hero-inner{padding:clamp(20px,4vw,44px);width:min(95%,660px)}
+.sl-kicker,.sl-farm small{font-size:10px;line-height:1.4;text-transform:uppercase;letter-spacing:.21em;font-weight:750;color:#ffdb9c;margin:0 0 9px}
+.sl-hero h1{font-size:clamp(37px,6.8vw,80px);font-weight:780;line-height:.98;letter-spacing:-.055em;margin:0;text-wrap:balance;color:#fffaf3}
+#slObjective{font-size:clamp(13px,2vw,17px);line-height:1.45;color:#f4f1ec;margin:12px 0 20px}
+.sl-launch{gap:12px}.sl-start,#slRetry{min-height:44px;border-radius:7px;padding:10px 18px;background:#f2c982;border:1px solid #f6daaa;color:#211e1e;font-size:14px;font-weight:750}
+.sl-start{display:inline-flex;align-items:center;justify-content:space-between;gap:24px}.sl-start b{font-size:20px;line-height:1}.sl-start:disabled{opacity:.64;cursor:wait}
+#slReady{min-height:15px;margin:8px 0 0;color:#e0dfe0;line-height:1.4;font-size:11px}
+.sl-shell h2{font-size:clamp(20px,2.4vw,26px);letter-spacing:-.03em;line-height:1.1;margin:0 0 12px;color:#f5f2ea}
+.sl-section-head h2{margin:0}.sl-section-head{margin-bottom:12px}
+.sl-text{background:none;border:0;color:#e9c88e;font-size:12px;min-height:36px;padding:0 4px}
+.sl-cards,.sl-equipment-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.sl-card{position:relative;overflow:hidden;text-align:left;background:#232330;border:1px solid #fff2;border-radius:11px;color:#fcf6ed;padding:0}
+.sl-card img{display:block;width:100%;height:clamp(60px,10vw,112px);object-fit:cover}
+.sl-card>span{display:block;padding:9px 12px 11px}.sl-card strong,.sl-card small{display:block;line-height:1.3}.sl-card strong{font-size:clamp(12px,1.7vw,17px)}.sl-card small{font-size:11px;color:#c0bdca;margin-top:3px}
+.sl-card>b{display:none;position:absolute;top:7px;right:7px;line-height:18px;width:18px;border-radius:50%;background:#f1c982;color:#211a16;text-align:center}.sl-card[aria-pressed=true]{border-color:#e9c78b}.sl-card[aria-pressed=true]>b{display:block}
+.sl-lower{display:grid;grid-template-columns:1.6fr 1fr;gap:20px}.sl-equipment-grid button{background:#242330;padding:5px 7px 9px;border:1px solid #ffffff1e;border-radius:9px;color:#e8decf;font-size:12px}.sl-equipment-grid svg{width:100%;height:46px;display:block;margin-bottom:5px}
+.sl-farm{position:relative;isolation:isolate;text-align:left;align-self:stretch;overflow:hidden;border:1px solid #fff2;border-radius:12px;background:#324333;color:#fff;min-height:90px;padding:16px;display:flex;align-items:flex-end}.sl-farm small,.sl-farm strong{display:block}.sl-farm small{margin-bottom:4px}.sl-farm strong{font-size:22px;letter-spacing:-.025em}
+.sl-nav{position:sticky;bottom:0;z-index:4;display:grid;grid-template-columns:repeat(4,1fr);background:#161624f5;border-top:1px solid #ffffff26;padding:5px 0 max(5px,env(safe-area-inset-bottom));backdrop-filter:blur(14px)}.sl-nav button{justify-content:center;gap:7px;background:transparent;border:0;color:#e5e0e6;min-height:42px;font-size:12px;font-weight:650}.sl-nav svg{width:19px;height:19px;color:#ebc783}
+.sl-shell button:hover:not(:disabled){filter:brightness(1.1)}
+@media(max-width:620px){.sl-header{height:54px}.sl-wordmark{gap:5px}.sl-logo{width:30px;height:30px}.sl-header .sl-xp{display:none}.sl-status{gap:7px}.sl-main{gap:19px;padding-top:12px}.sl-hero{border-radius:14px;min-height:290px}.sl-hero>img{object-position:60% center}.sl-hero-inner{padding:19px 16px;width:100%}.sl-card>span{padding:8px}.sl-card small{font-size:10px}.sl-cards{gap:6px}.sl-lower{grid-template-columns:1fr;gap:13px}.sl-farm{min-height:85px}.sl-equipment-grid svg{height:36px}.sl-nav button{gap:4px}.sl-wordmark strong{font-size:13px}}
+@media(prefers-reduced-motion:no-preference){.sl-card,.sl-start,.sl-farm{transition:filter .16s,border-color .16s}}
+
+#sniperSheet{box-sizing:border-box;max-width:560px;width:calc(100% - 32px);border:1px solid #cfa969;border-radius:20px;background:radial-gradient(ellipse at top left,#523363,#21152e 70%);color:#fff0da;box-shadow:0 12px 100px #000b;padding:35px 25px}#sniperSheet::backdrop{background:#100719b8;backdrop-filter:blur(6px)}#slClose{position:absolute;right:12px;top:10px;border:0;background:none;color:#eee0f8;font-size:30px;padding:0;min-height:28px}#slSheetBody h2{font-size:31px;color:#ffe0a0;margin:15px 0}#slSheetBody .sl-eyebrow{font-size:12px;letter-spacing:.15em}#slSheetBody p{font-size:15px;line-height:1.7;color:#d9cbe3}.sl-sheet-note{padding:20px;border:1px solid #a989bd66;background:#120c2580;border-radius:12px;margin:20px 0;color:#e2c495;line-height:1.8}.sl-choice,.sl-secondary{display:block;width:100%;text-align:left;border:1px solid #9f75b4;border-radius:12px;background:#4b2b61;color:#ffe3a8;padding:17px;margin:12px 0}.sl-choice strong{display:block;font-size:19px}.sl-choice span{display:block;font-size:12px;color:#dac7e5;line-height:1.6;margin-top:5px}.sl-secondary{text-align:center;background:linear-gradient(#f3d08a,#c49149);color:#271a2b;font-weight:bold}.sl-team-member{display:flex;gap:18px;align-items:center;border-bottom:1px solid #a887bb44;padding:12px 0}.sl-team-member>span{font-size:30px;color:#f4d595;border:1px solid #c69a61;border-radius:12px;min-width:65px;text-align:center;padding:12px 0}.sl-team-member p{margin:5px 0}.sl-team-member strong{font-size:19px}
+body.sniper.camp{--gold:#f0c66e;--bg:#140d21;--ink:#fff0d4;--muted:#cbb8d6}body.sniper.camp .topbar,body.sniper.camp .bottomNav{background:linear-gradient(100deg,#392149,#170f25);border-color:#b3885344}body.sniper.camp .money,body.sniper.camp .levelBadge,body.sniper.camp #urbanObjective,body.sniper.camp #sniperHud>span,body.sniper.camp #armorPanel,body.sniper.camp .roundTool,body.sniper.camp .combatTool{background:linear-gradient(130deg,#492d59dd,#20162ddd);border-color:#d2af7666;color:#ffefd3;box-shadow:inset 0 0 0 2px #e7c78a0d}body.sniper.camp #urbanObjective{border-left-color:#f4ce80}body.sniper.camp #urbanPhase{color:#f3ce88}body.sniper.camp .fireTool{background:linear-gradient(#ffebaa,#edbb5f 50%,#c68b3f);color:#30203a;border:3px solid #ffe5a4;box-shadow:0 0 20px #efb75655,inset 0 0 0 5px #9a672444}body.sniper.camp #scopeMask{border-color:#e3c58b99;box-shadow:0 0 0 200vmax #100b1ee0,inset 0 0 0 6px #5b405566,inset 0 0 70px #0e071f55}body.sniper.camp .track i{background:linear-gradient(90deg,#7332bd,#d194ed)}body.sniper.camp #breathBar i{background:#e5c88b}body.sniper.camp .brand .seal{background:#542b72;color:#ffdc83;border-color:#c5a166}body.sniper.camp .gameTabs .selected{background:#593269;color:#fbe3a4}@media(max-width:480px){.sl-header{padding:0 7%}.sl-header h1{font-size:5.25vw}.sl-header p{font-size:1.7vw;padding:3px;margin-top:4px}.sl-level,.sl-coins{border-radius:9px;padding:0 2%;gap:4%}.sl-stats{gap:2%;height:45px}.sl-level{flex:1.2}.sl-coins{flex:1}.sl-coin{font-size:19px}.sl-coins>span:not(.sl-coin){font-size:9px}.sl-mission{border-radius:11px}.sl-description h2{margin-bottom:4px}.sl-steps{width:26%;margin-right:0}.sl-start{border-radius:12px!important;margin-top:2%;min-height:42px}.sl-equipment-grid>button{border-radius:9px 6px;border-width:1px}.sl-notice{margin:4% 0}.sl-nav button{border-radius:10px}.sl-mission>p{font-size:8px;margin:6px 3px 2px}.sl-hero-label{font-size:6px}}
+/* Edition 11: the target lane stays clear on tall phone screens. */
+.camp.playing #crosshair{filter:drop-shadow(0 1px 2px #000)}
+.camp.playing #crosshair i{background:#fff0b8}.camp.playing #crosshair span{border-color:#fff0b8}
+.camp.playing #urbanObjective{max-width:calc(100% - 145px);background:linear-gradient(100deg,#2b193ac9,#24162e70);padding:7px 10px;border-radius:0 7px 7px 0}
+.camp.playing #urbanDetail{font-size:9px;line-height:1.4;max-width:220px}
+.camp.playing.engaged #urbanDetail{display:none}.camp.playing.engaged #urbanObjective{max-width:calc(100% - 145px)}
+.camp.playing.engaged #sniperHud{top:56px}.camp.playing.engaged .pauseTool{top:97px}.camp.playing.engaged #armorPanel{top:98px}
+.camp.playing #armorPanel{padding:0 5px;border-radius:4px}
+.camp.playing .scopeRing{border-color:#d0b881;box-shadow:0 0 0 2px #81705e,0 0 0 6px #211629,0 0 0 200vmax #100b1ee0,inset 0 0 35px #0e071f55}
+@media(orientation:portrait){
+ .camp.playing .combatLeft{bottom:calc(84px + env(safe-area-inset-bottom));left:14px;gap:6px}
+ .camp.playing .combatTool{width:52px;height:57px;font-size:8px;border-radius:11px}
+ .camp.playing .fireButton{bottom:calc(78px + env(safe-area-inset-bottom));right:16px;width:82px;height:82px}
+ .camp.playing .reloadTool{bottom:calc(84px + env(safe-area-inset-bottom));right:112px;width:48px;height:52px}
+ .camp.playing #breathBar{bottom:calc(168px + env(safe-area-inset-bottom))}
+ .camp.playing #threatWarning{bottom:calc(197px + env(safe-area-inset-bottom));font-size:8px;max-width:84%}
+ .camp.playing #worldMessage{bottom:calc(232px + env(safe-area-inset-bottom))}
+}
+@media(orientation:portrait) and (max-width:370px){.camp.playing .combatLeft{left:10px;gap:4px}.camp.playing .combatTool{width:46px}.camp.playing .fireButton{width:72px;height:72px;right:12px}.camp.playing .reloadTool{right:96px;width:42px}}
+
+.route-action{position:absolute;z-index:14;left:50%;bottom:clamp(125px,23%,205px);transform:translateX(-50%);white-space:nowrap;border:1px solid #f9dfaf;border-radius:9px;background:#f2ce91;color:#251f23;box-shadow:0 6px 24px #0006;font-weight:750;min-height:44px;padding:9px 18px}
+body:not(.sniper) .topbar{background:#f3f0e3;border-bottom:1px solid #928b6755}
+body:not(.sniper) .bottomNav{background:#ebebde;border-top:1px solid #78856755}
+body:not(.sniper) #sceneDecor{background:linear-gradient(180deg,#bbbb8917,transparent 30%,transparent 75%,#344c3e22);box-shadow:inset 0 0 52px #13332316}
+body:not(.sniper) #panel .truckHeading{border-left:3px solid #a48044;padding-left:10px}
+@media(max-height:480px) and (orientation:landscape){.route-action{bottom:32px}}
+
+#slSettings{border:0;background:transparent;font-size:20px;color:#e9d6b4;padding:3px 5px;min-width:34px}
