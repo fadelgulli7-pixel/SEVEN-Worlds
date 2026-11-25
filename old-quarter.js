@@ -1,8 +1,8 @@
-import {dressQuarter} from './field-design.js?v=field-20261125';
-import {T,mat,mesh,box,ball,cyl,group,bevel,seed,mergeStatic} from './visuals.js?v=field-20261125';
-import {surface} from './surfaces.js?v=field-20261125';
-import {dressStreet,weatherFacade} from './urban-details.js?v=field-20261125';
-import {abandonedCar} from './hero-assets.js?v=field-20261125';
+import {dressQuarter} from './field-design.js?v=field-cast-2';
+import {T,mat,mesh,box,ball,cyl,group,bevel,seed,mergeStatic} from './visuals.js?v=field-cast-2';
+import {surface} from './surfaces.js?v=field-cast-2';
+import {dressStreet,weatherFacade} from './urban-details.js?v=field-cast-2';
+import {abandonedCar} from './hero-assets.js?v=field-cast-2';
 
 let texturePromise;
 export function loadCityMaterials(){
@@ -23,7 +23,7 @@ function label(p,text,w,h,color=0xe4ddbc,bg='#183f46'){
 }
 function rod(p,a,b,r,m){const av=new T.Vector3(...a),bv=new T.Vector3(...b),o=mesh(new T.CylinderGeometry(r,r,av.distanceTo(bv),8),typeof m==='object'?m:mat(m),p,...av.clone().add(bv).multiplyScalar(.5).toArray());o.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),bv.sub(av).normalize());return o}
 function facade(parent,{x,z,w=9,h=11,depth=7,color=0xcabca6,side=0,brick,wall,shop='SEVEN CAFE',awning=0x35646a}){
- const p=group(parent,x,0,z);p.rotation.y=side;const body=material(wall,color,[3,3]),stone=mat(0xc4b9a2),trim=mat(0xd6cbb4),dark=mat(0x243b40,.22,.45);
+ const p=group(parent,x,0,z);p.rotation.y=side;const body=material(wall,color,[3,3]),stone=mat(0xc4b9a2),trim=mat(0xd6cbb4),dark=new T.MeshPhysicalMaterial({color:0x697879,metalness:.72,roughness:.14,clearcoat:1,envMapIntensity:1.45});
  box(p,w,h,depth,body,0,h/2,-depth/2);box(p,w+.3,.22,depth+.4,trim,0,h,-depth/2);
  box(p,w,.48,.2,brick,0,.24,.08);for(let yy=3.35;yy<h;yy+=3)box(p,w+.15,.16,.26,trim,0,yy,.13);
  for(let yy=4.6;yy<h-.7;yy+=3)for(let xx=-w/2+1.5;xx<w/2-1;xx+=2.8){
@@ -74,7 +74,7 @@ export function buildOldQuarter(scene,kits,hero){
   for(let z of [-4,-22]){const b=group(p,s*9.1,0,z);for(let i=0;i<5;i++){box(b,1.9,.055,.12,0x836b4e,0,.48,i*.14);box(b,1.9,.08,.065,0x836b4e,0,.75+i*.12,-.1)}for(let x of [-.7,.7])box(b,.06,.5,.7,0x354441,x,.23,.2)}
  }
  // A shop-lined plaza terminates in a real open arcade, leaving the shooting lane clear.
- for(const x of [-11,0,11])facade(p,{x,z:-45,w:10.7,h:x===0?14:11,wall,brick,shop:x===0?'PLACE DES OLIVIERS':'SEVEN QUARTER',color:0xd0be9d});
+ for(const [x,z,w,h,color,shop,awning] of [[-11,-46,9.6,12.8,0xa49b83,'BOULANGERIE',0x625545],[0,-48,11.4,16,0xcbbca5,'PLACE DES OLIVIERS',0x48635d],[11,-45,9.8,10.5,0xbb9781,'MAISON DU THE',0x70544d]])facade(p,{x,z,w,h,color,shop,awning,wall,brick});
  for(let x=-25;x<=25;x+=8){box(p,6,12+r()*12,8,material(wall,0x8d9997,[2,4]),x,7,-60);box(p,5,5,6,material(wall,0x89938e,[2,2]),x+3,10,-72)}
  for(const z of [6,-36])for(let x=-6;x<7;x+=1.2)box(p,.55,.008,2.3,0xd1cdb9,x,.02,z);
 

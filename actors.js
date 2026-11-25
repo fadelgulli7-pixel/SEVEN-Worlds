@@ -1,14 +1,14 @@
 import * as T from 'three';
 import {GLTFLoader} from './vendor/GLTFLoader.js';
 import {clone as cloneSkeleton} from './vendor/SkeletonUtils.js';
-import {box,mesh,group,mat,mergeStatic} from './visuals.js?v=field-20261125';
+import {box,mesh,group,mat,mergeStatic} from './visuals.js?v=field-cast-2';
 
 // The masters are decoded once. Each cast owns separate GPU resources, shared only
 // among that cast's actors, so leaving/reopening a mission cannot dispose a live cast.
 let libraryPromise;
 export function loadActorLibrary(buffers){
  if(!libraryPromise){
-  libraryPromise=Promise.all(['Tactical','Michelle'].map(async name=>{
+  libraryPromise=Promise.all(['Vanguard','Michelle'].map(async name=>{
    const data=buffers?.[name]??await fetch(new URL(`./assets/${name}.glb`,import.meta.url)).then(r=>{if(!r.ok)throw Error('Character download failed');return r.arrayBuffer()});
    return new GLTFLoader().parseAsync(data,'');
   })).then(([soldier,civilian])=>({soldier,civilian})).catch(e=>{libraryPromise=null;throw e});
@@ -97,7 +97,7 @@ export class CharacterCast{
   }else{
    const moving=mode==='walk'||mode==='run',running=mode==='run',crouching=mode==='crouch'||mode==='down',cycle=time*(running?8:5)+actor.phase;
    actor.rig.position.y=actor.baseY+(crouching?-.5:moving?Math.sin(cycle*2)*.018:Math.sin(time*1.3+actor.phase)*.004);
-   if(!moving||!actor.actions[animationMode])for(const side of ['Left','Right']){const sign=side==='Left'?1:-1,step=Math.sin(cycle)*sign,target=actor.feet[side].clone();if(moving){target.z+=step*(running?.32:.18);target.y+=Math.max(0,Math.cos(cycle)*sign)*(running?.16:.085)}if(crouching)target.z+=.1;reach(side,root.localToWorld(target),true);const foot=b[side+'Foot'];foot.quaternion.copy(foot.parent.getWorldQuaternion(new T.Quaternion()).invert().multiply(root.getWorldQuaternion(new T.Quaternion())).multiply(actor.footQuaternions[side]));}
+   if(crouching||!actor.actions[animationMode])for(const side of ['Left','Right']){const sign=side==='Left'?1:-1,step=Math.sin(cycle)*sign,target=actor.feet[side].clone();if(moving){target.z+=step*(running?.32:.18);target.y+=Math.max(0,Math.cos(cycle)*sign)*(running?.16:.085)}if(crouching)target.z+=.1;reach(side,root.localToWorld(target),true);const foot=b[side+'Foot'];foot.quaternion.copy(foot.parent.getWorldQuaternion(new T.Quaternion()).invert().multiply(root.getWorldQuaternion(new T.Quaternion())).multiply(actor.footQuaternions[side]));}
    if(crouching)point('Spine','Spine1',[0,1,mode==='down'?.65:.25]);
    point('RightArm','RightForeArm',actor.shoulderAim?[-.25,.03,1]:[-.15,-.8,.5]);point('RightForeArm','RightHand',actor.shoulderAim?[-.1,.05,1]:[-.1,-.05,1]);
    point('LeftArm','LeftForeArm',[.2,-.65,.6]);point('LeftForeArm','LeftHand',[-.5,.05,1]);

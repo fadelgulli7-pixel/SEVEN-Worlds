@@ -1,12 +1,12 @@
-import {T,mat,mesh,group,marker,rifle,lightScene,disposeWorld} from './visuals.js?v=studio';
-import {environmentLight} from './surfaces.js?v=studio';
-import {TacticalEncounter} from './combat-ai.js?v=studio';
-import {sky} from './environment.js?v=studio';
-import {loadStreetLight,contactMaterial,contactShadow} from './urban-details.js?v=studio';
-import {loadHeroAssets,heroRifle,animateHeroRifle} from './hero-assets.js?v=studio';
-import {loadActorLibrary,CharacterCast} from './actors.js?v=studio';
-import {loadCampAssets,buildMountainOutpost} from './mountain-outpost.js?v=studio';
-import {loadCityMaterials,buildOldQuarter} from './old-quarter.js?v=studio';
+import {T,mat,mesh,group,marker,rifle,lightScene,disposeWorld} from './visuals.js?v=field-cast-2';
+import {environmentLight} from './surfaces.js?v=field-cast-2';
+import {TacticalEncounter} from './combat-ai.js?v=field-cast-2';
+import {sky} from './environment.js?v=field-cast-2';
+import {loadStreetLight,contactMaterial,contactShadow} from './urban-details.js?v=field-cast-2';
+import {loadHeroAssets,heroRifle,animateHeroRifle} from './hero-assets.js?v=field-cast-2';
+import {loadActorLibrary,CharacterCast} from './actors.js?v=field-cast-2';
+import {loadCampAssets,buildMountainOutpost} from './mountain-outpost.js?v=field-cast-2';
+import {loadCityMaterials,buildOldQuarter} from './old-quarter.js?v=field-cast-2';
 
 export const URBAN_MISSION={target:3,seconds:100,reward:0,title:'Old Quarter rescue'};
 const HOME=new T.Vector3(0,3.45,15),PITCH=-.085;
@@ -14,18 +14,19 @@ export class UrbanRescue{
  constructor(renderer,state,events,options={}){
   this.isCamp=options.theme==='camp';this.home=this.isCamp?new T.Vector3(0,3.6,9):HOME.clone();this.startPitch=this.isCamp?-.11:PITCH;this.baseFov=this.isCamp?60:50;this.coverDrop=this.isCamp?1.25:.95;this.coverZ=this.isCamp?7.1:14.4;this.coverTop=this.isCamp?2.6:3.02;this.gunHome=new T.Vector3(.28,-.23,-.8);
   this.isUrban=true;this.state=state;this.events=events;this.scene=new T.Scene();this.targets=[];this.round=null;this.scoped=false;this.yaw=0;this.pitch=this.startPitch;this.sensitivity=1;this.effects=[];this.breath=3;this.breathRecovery=0;this.holding=false;this.recoil=0;this.loaded=false;this.disposed=false;this.scanClock=0;this.cinematicEnabled=true;this.zoom=3;this.coverAmount=0;this.cooldown=0;this.encounter=new TacticalEncounter(3);this.enemyRay=new T.Raycaster();
-  this.camera=new T.PerspectiveCamera(this.baseFov,1,.05,180);this.camera.rotation.order='YXZ';this.camera.position.copy(this.home);this.camera.rotation.x=this.startPitch;this.scene.add(this.camera);
+  this.camera=new T.PerspectiveCamera(this.baseFov,1,.05,360);this.camera.rotation.order='YXZ';this.camera.position.copy(this.home);this.camera.rotation.x=this.startPitch;this.scene.add(this.camera);
   this.gun=rifle(this.camera);this.gun.scale.setScalar(.68);this.gun.position.set(.28,-.23,-.8);
   this.sun=lightScene(this.scene,0xc7d7da,0xffe0ae);this.sun.position.set(-18,28,21);this.sun.target.position.set(0,0,-12);this.scene.add(this.sun.target);this.sun.intensity=2.1;Object.assign(this.sun.shadow.camera,{left:-25,right:25,top:36,bottom:-22,far:130});this.sun.shadow.normalBias=.025;this.sun.shadow.bias=-.00015;
   this.scene.children.find(o=>o.isHemisphereLight).intensity=.3;this.scene.fog=new T.Fog(0xa7b9bd,48,130);sky(this.scene,'#80abc2','#dfd7be');environmentLight(this.scene,'sniper');this.scene.environmentIntensity=.65;this.ray=new T.Raycaster();
   this.ready=Promise.all([loadActorLibrary(),this.isCamp?loadCampAssets().then(a=>a.kits):loadCityMaterials(),this.isCamp?loadCampAssets():loadStreetLight(),loadHeroAssets()]).then(([library,kits,hdri,hero])=>{
    if(this.disposed)return;this.scene.environment.dispose();this.scene.background.dispose();this.scene.environment=hdri.light.clone();this.scene.background=hdri.background.clone();this.scene.backgroundBlurriness=.015;this.scene.backgroundIntensity=.8;this.scene.environmentIntensity=.75;this.scene.environmentRotation.y=-.6;this.scene.backgroundRotation.y=-.6;this.contactMaterial=contactMaterial();this.gun.removeFromParent();disposeWorld(this.gun);this.gun=heroRifle(this.camera,hero.rifle);this.gun.scale.setScalar(.55);this.gun.position.set(this.camera.aspect<1?.10:.28,-.23,-.8);const city=this.isCamp?buildMountainOutpost(this.scene,kits):buildOldQuarter(this.scene,kits,hero);Object.assign(this,city);this.cast=new CharacterCast(library);this.actorsGroup=group(this.scene);
    if(this.isCamp){
-    this.sun.color.setHex(0xffb075);this.sun.intensity=3;this.sun.position.set(25,19,-50);this.scene.fog=new T.Fog(0x817188,65,170);this.scene.backgroundIntensity=.65;this.scene.environmentIntensity=.8;this.scene.backgroundRotation.y=1.2;this.scene.environmentRotation.y=1.2;
-    const hemi=this.scene.children.find(o=>o.isHemisphereLight);hemi.color.setHex(0xa398d1);hemi.groundColor.setHex(0x574250);hemi.intensity=.75;
+    this.sun.color.setHex(0xffb075);this.sun.intensity=2.15;this.sun.position.set(25,19,-50);this.scene.fog=new T.Fog(0xa5a397,52,205);this.scene.backgroundIntensity=.55;this.scene.environmentIntensity=.48;this.scene.backgroundRotation.y=1.2;this.scene.environmentRotation.y=1.2;
+    const hemi=this.scene.children.find(o=>o.isHemisphereLight);hemi.color.setHex(0xa398d1);hemi.groundColor.setHex(0x574250);hemi.intensity=.43;
     // Live aiming is first person. The lobby illustration is not a camera rig.
     this.gun.visible=true;
    }
+   if(!this.isCamp){this.sun.color.setHex(0xffd7a0);this.sun.intensity=2.25;this.sun.position.set(-25,22,8);this.scene.environmentIntensity=.52;this.scene.fog=new T.Fog(0xaeb9b8,38,115);}
    const definitions=[
     {position:[-4.1,0,-7.8],phase:.2,role:'patrol',cover:[-5.7,0,-10.7]},
     {position:[4.2,0,-17],phase:1.8,role:'patrol',cover:[5.1,0,-20.7]},

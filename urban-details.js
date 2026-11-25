@@ -1,4 +1,4 @@
-import {T,mesh,box,group,mat,seed,mergeStatic} from './visuals.js?v=studio';
+import {T,mesh,box,group,mat,seed,mergeStatic} from './visuals.js?v=field-cast-2';
 import {HDRLoader} from './vendor/HDRLoader.js';
 
 let lightPromise;

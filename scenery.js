@@ -1,4 +1,4 @@
-import {T,mat,mesh,box,ball,cyl,group,seed,tree} from './visuals.js?v=field-20261125';
+import {T,mat,mesh,box,ball,cyl,group,seed,tree} from './visuals.js?v=field-cast-2';
 
 // Continuous terrain keeps the estate grounded, with a flat playable center.
 export function meadow(scene){

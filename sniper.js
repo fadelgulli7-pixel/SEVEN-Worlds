@@ -1,15 +1,19 @@
-import {rescueHelicopter} from './aircraft.js?v=studio';
-import {finishSurfaces} from './surfaces.js?v=studio';
-import {outpostAtmosphere} from './presentation.js?v=studio';
-import {outpostDetails} from './scenery.js?v=studio';
-import {sky,mountains,details} from './environment.js?v=studio';
-import {T,mat,mesh,box,ball,cyl,group,seed,terrainTexture,lightScene,person,marker,rifle,batchScenery,disposeWorld} from './visuals.js?v=studio';
-import {config,operationFor} from './state.js?v=studio';
-import {chapterLandmark,chapterSky} from './chapter-art.js?v=studio';
+import {loadActorLibrary,CharacterCast} from './actors.js?v=field-cast-2';
+import {loadHeroAssets,heroRifle} from './hero-assets.js?v=field-cast-2';
+import {loadCampAssets} from './mountain-outpost.js?v=field-cast-2';
+import {alpineTreeLine} from './field-design.js?v=field-cast-2';
+import {rescueHelicopter} from './aircraft.js?v=field-cast-2';
+import {finishSurfaces} from './surfaces.js?v=field-cast-2';
+import {outpostAtmosphere} from './presentation.js?v=field-cast-2';
+import {outpostDetails} from './scenery.js?v=field-cast-2';
+import {sky,mountains,details} from './environment.js?v=field-cast-2';
+import {T,mat,mesh,box,ball,cyl,group,seed,terrainTexture,lightScene,person,marker,rifle,batchScenery,disposeWorld} from './visuals.js?v=field-cast-2';
+import {config,operationFor} from './state.js?v=field-cast-2';
+import {chapterLandmark,chapterSky} from './chapter-art.js?v=field-cast-2';
 export class Sniper{
-constructor(renderer,state,events){this.scene=new T.Scene();this.state=state;this.operation=operationFor(state.level);this.events=events;this.camera=new T.PerspectiveCamera(55,1,.1,250);this.camera.position.set(0,7,19.5);this.camera.rotation.order='YXZ';this.yaw=0;this.pitch=-.23;this.camera.rotation.x=this.pitch;this.scene.add(this.camera);this.gun=rifle(this.camera);this.gun.scale.setScalar(.68);this.scanClock=0;this.sensitivity=1;this.holding=false;this.breath=3;this.breathRecovery=0;this.ray=new T.Raycaster();this.targets=[];this.effects=[];this.round=null;this.scoped=false;this.recoil=0;this.build();finishSurfaces(this.scene,'sniper');batchScenery(this.environment)}
-build(){this.environment=new T.Group();this.scene.add(this.environment);let p=this.environment,r=seed(this.state.level*717),biome=Math.floor((this.state.level-1)/11);const ground=[0x9a8468,0xc2a06c,0x667a7d,0xd1dbde,0x66616b,0x7a806e,0x857774][biome];const [zenith,horizon,haze]=chapterSky(biome);this.scene.fog=new T.Fog(haze,65,180);const sun=lightScene(this.scene,0x718594,0xf9dab3);sun.intensity=2.8;sun.position.set(-30,24,12);sun.shadow.mapSize.set(2048,2048);this.sun=sun;this.scene.children.find(x=>x.isHemisphereLight).intensity=1.65;mesh(new T.PlaneGeometry(250,250),new T.MeshStandardMaterial({color:ground,map:terrainTexture('#aa9a83','#665b4822'),roughness:1}),p).rotation.x=-Math.PI/2;
-mountains(p,biome);details(p,biome);outpostDetails(p,biome);this.atmosphere=outpostAtmosphere(this.scene,p,biome);sky(this.scene,zenith,horizon);chapterLandmark(p,biome);
+constructor(renderer,state,events){this.scene=new T.Scene();this.state=state;this.operation=operationFor(state.level);this.events=events;this.camera=new T.PerspectiveCamera(55,1,.1,250);this.camera.position.set(0,7,19.5);this.camera.rotation.order='YXZ';this.yaw=0;this.pitch=-.23;this.camera.rotation.x=this.pitch;this.scene.add(this.camera);this.gun=rifle(this.camera);this.gun.scale.setScalar(.68);this.scanClock=0;this.sensitivity=1;this.holding=false;this.breath=3;this.breathRecovery=0;this.ray=new T.Raycaster();this.targets=[];this.effects=[];this.round=null;this.scoped=false;this.recoil=0;this.build();this.loaded=false;this.ready=this.loadDetailedModels();finishSurfaces(this.scene,'sniper');batchScenery(this.environment)}
+build(){this.environment=new T.Group();this.scene.add(this.environment);let p=this.environment,r=seed(this.state.level*717),biome=Math.floor((this.state.level-1)/11);const ground=[0x9a8468,0xc2a06c,0x667a7d,0xd1dbde,0x66616b,0x7a806e,0x857774][biome];const [zenith,horizon,haze]=chapterSky(biome);this.scene.fog=new T.Fog(haze,65,180);const sun=lightScene(this.scene,0x718594,0xf9dab3);sun.intensity=2.1;sun.position.set(-30,24,12);sun.shadow.mapSize.set(2048,2048);this.sun=sun;this.scene.children.find(x=>x.isHemisphereLight).intensity=.55;mesh(new T.PlaneGeometry(250,250),new T.MeshStandardMaterial({color:ground,map:terrainTexture('#aa9a83','#665b4822'),roughness:1}),p).rotation.x=-Math.PI/2;
+mountains(p,biome);alpineTreeLine(p);details(p,biome);outpostDetails(p,biome);this.atmosphere=outpostAtmosphere(this.scene,p,biome);sky(this.scene,zenith,horizon);chapterLandmark(p,biome);
 box(p,16,6,8,0x8c8377,0,3,24);box(p,17,.25,9,0xa69c8a,0,6.15,24);for(let x of [-8,8])box(p,.3,.5,8,0xbbb09b,x,6.5,24);box(p,17,.2,.3,0xb3a28b,0,6.28,20); // player rooftop
 // outpost buildings arranged around the clear central rescue corridor
 for(let side of [-1,1])for(let i=0;i<4;i++){let x=side*(17+r()*5),z=-5-i*16,h=4+r()*5;let g=group(p,x,0,z);box(g,8,h,9,biome===3?0xa4adb1:0x9b8d76,0,h/2,0);box(g,8.6,.3,9.6,0x766c5c,0,h,0);for(let j=0;j<3;j++){box(g,1.1,1.5,.08,0x343c40,-2.5+j*2.5,2,4.55);box(g,1.2,.1,.2,0xbaa47a,-2.5+j*2.5,1.2,4.6)}for(let k=0;k<2;k++)box(g,1.4,1.4,1.4,0x666b62,(r()-.5)*4,h+.85,(r()-.5)*4)}
@@ -25,6 +29,26 @@ if(this.operation.type==='supply'){
 }
 const ring=mesh(new T.TorusGeometry(3.1,.07,8,48),new T.MeshBasicMaterial({color:0xedc568}),p,8,.04,5);ring.rotation.x=-Math.PI/2;this.rotor=rescueHelicopter(p,12,7).rotor;
 for(let i=0;i<config('sniper',this.state.level).target;i++){let x=(i%2?1:-1)*(3+(i%4)*1.6),z=-4-Math.floor(i/2)*5;let model=person(p,x,z,0x77715a);let tag=marker(model,0xf36b4b);model.userData.target=this.targets.length;this.targets.push({model,tag,alive:true,friend:false,origin:model.position.clone(),phase:r()*6})}for(let i=0;i<2;i++){let model=person(p,-1+i*3,-12-i*7,0x437c7b,true),tag=marker(model,0x7bf3ae);model.userData.target=this.targets.length;this.targets.push({model,tag,alive:true,friend:true,origin:model.position.clone(),phase:i})}}
+async loadDetailedModels(){
+ const [library,hero,lighting]=await Promise.all([loadActorLibrary(),loadHeroAssets(),loadCampAssets()]);
+ if(this.disposed)return;
+ this.cast=new CharacterCast(library);
+ for(const target of this.targets){
+  const previous=target.model;
+  const actor=this.cast.create(this.environment,{position:previous.position.toArray(),civilian:false,phase:target.phase});
+  actor.root.userData.target=previous.userData.target;
+  actor.root.userData.legs=[];
+  actor.root.add(target.tag);
+  previous.removeFromParent();disposeWorld(previous);
+  target.model=actor.root;target.actor=actor;
+ }
+ this.gun.removeFromParent();disposeWorld(this.gun);
+ this.gun=heroRifle(this.camera,hero.rifle);this.gun.scale.setScalar(.48);this.gun.position.set(.3,-.3,-.9);
+ this.scene.background?.dispose();this.scene.background=lighting.background.clone();
+ this.scene.environment=lighting.light.clone();this.scene.environmentIntensity=.5;this.scene.backgroundIntensity=.6;
+ this.loaded=true;
+}
+
 scan(){this.ray.setFromCamera(new T.Vector2(0,0),this.camera);let hits=this.ray.intersectObjects(this.environment.children,true);let info=null;for(const h of hits){let o=h.object;while(o&&o.userData.target===undefined)o=o.parent;if(o){let target=this.targets[o.userData.target];if(target.alive){info={friend:target.friend,distance:Math.round(h.distance)};break}}else if(h.distance>2)break}this.events.scan?.(info)}
 holdBreath(){if(!this.round||this.round.paused||this.breath<=.1)return false;this.holding=!this.holding;return this.holding}
 resize(w,h){this.camera.aspect=w/h;this.gun.position.x=w/h<1?.16:.3;this.camera.updateProjectionMatrix()}
@@ -62,6 +86,9 @@ update(dt,t){this.atmosphere.update(dt,t);this.rotor.rotation.y+=dt*20;this.flas
   a.extract=0;a.waitingCargo=true;this.events.toast('Team at the cache. Collect the supplies.');
   this.events.change(a);
  }else return this.end(true);
-}}else if(!a.waitingCargo&&!a.waitingBeacon)for(let target of this.targets){if(!target.alive)continue;let speed=config('sniper',this.state.level).speed*(this.scoped?1-this.state.upgrade*.1:1);target.phase+=dt*speed;target.model.position.x=target.origin.x+Math.sin(target.phase)*(target.friend?.15:1.2);target.model.rotation.y=Math.cos(target.phase)>0?.6:-.6;target.model.userData.legs.forEach((l,i)=>l.rotation.x=Math.sin(t*4+i*Math.PI)*(target.friend?.02:.2))}this.events.tick(a);this.scanClock+=dt;if(this.scanClock>.15){this.scanClock=0;this.scan()}}for(let x of this.targets){if(!x.alive&&x.model.visible){x.fall+=dt;x.model.rotation.z=Math.min(1.5,x.fall*3)*(x.origin.x<0?1:-1);if(x.fall>1.2)x.model.visible=false}x.tag.rotation.y=t;x.tag.position.y=2.7+Math.sin(t*2+x.phase)*.06}for(let e of this.effects){e.life-=dt;e.g.children.forEach(o=>o.position.addScaledVector(o.userData.v,dt))}this.effects=this.effects.filter(e=>{if(e.life<=0){this.scene.remove(e.g);disposeWorld(e.g);return false}return true})}
+}}else if(!a.waitingCargo&&!a.waitingBeacon)for(let target of this.targets){if(!target.alive)continue;let speed=config('sniper',this.state.level).speed*(this.scoped?1-this.state.upgrade*.1:1);target.phase+=dt*speed;target.model.position.x=target.origin.x+Math.sin(target.phase)*(target.friend?.15:1.2);target.model.rotation.y=Math.cos(target.phase)>0?.6:-.6;target.model.userData.legs.forEach((l,i)=>l.rotation.x=Math.sin(t*4+i*Math.PI)*(target.friend?.02:.2))}this.events.tick(a);this.scanClock+=dt;if(this.scanClock>.15){this.scanClock=0;this.scan()}}for(let x of this.targets){if(!x.alive&&x.model.visible){x.fall+=dt;x.model.rotation.z=Math.min(1.5,x.fall*3)*(x.origin.x<0?1:-1);if(x.fall>1.2)x.model.visible=false}x.tag.rotation.y=t;x.tag.position.y=2.7+Math.sin(t*2+x.phase)*.06}if(this.cast&&!a?.paused)for(const target of this.targets){
+ if(target.alive)this.cast.update(target.actor,dt,t,a?.extract&&target.friend?'run':target.friend?'idle':a?'walk':'idle');
+}
+for(let e of this.effects){e.life-=dt;e.g.children.forEach(o=>o.position.addScaledVector(o.userData.v,dt))}this.effects=this.effects.filter(e=>{if(e.life<=0){this.scene.remove(e.g);disposeWorld(e.g);return false}return true})}
 setQuality(q){const size=q==='high'?2048:1024;if(this.sun.shadow.mapSize.x!==size){this.sun.shadow.map?.dispose();this.sun.shadow.map=null;this.sun.shadow.mapSize.set(size,size)}this.atmosphereQuality=q}
-dispose(){disposeWorld(this.scene)}}
+dispose(){this.disposed=true;this.cast?.dispose();disposeWorld(this.scene)}}

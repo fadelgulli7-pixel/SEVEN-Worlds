@@ -1,4 +1,4 @@
-import {T,box,mesh,group,mat,seed,mergeStatic} from './visuals.js?v=field-20261125';
+import {T,box,mesh,group,mat,seed,mergeStatic} from './visuals.js?v=field-cast-2';
 
 // Dressing stays outside the target and extraction lanes.
 export function dressOutpost(parent,wood,metal){

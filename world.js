@@ -1,12 +1,12 @@
-import {browserSaveLock,progressWriter} from './progress.js?v=studio';
-import {GameAudio} from './audio.js?v=studio';
-import {SPECIES,LAND_COST,ROLES,adoptFarm,buyAnimal,feedAnimal,collectAnimal,feedHerd,buyFeed,buyLand,hireWorker,assignWorker,harvestField,workFarm,inventoryValue,loadTruck,settleFarm} from './farm-business.js?v=studio';
-import {T} from './visuals.js?v=studio';
-import {Farm,CROPS} from './farm.js?v=studio';
-import {Sniper} from './sniper.js?v=studio';
-import {UrbanRescue,URBAN_MISSION} from './urban-rescue.js?v=studio';
-import {config,finish,loadState,FARM_CHAPTERS,SNIPER_CHAPTERS,operationFor} from './state.js?v=studio';
-import {contractFor,deliver,rating,adoptExtras} from './economy.js?v=studio';
+import {browserSaveLock,progressWriter} from './progress.js?v=field-cast-2';
+import {GameAudio} from './audio.js?v=field-cast-2';
+import {SPECIES,LAND_COST,ROLES,adoptFarm,buyAnimal,feedAnimal,collectAnimal,feedHerd,buyFeed,buyLand,hireWorker,assignWorker,harvestField,workFarm,inventoryValue,loadTruck,settleFarm} from './farm-business.js?v=field-cast-2';
+import {T} from './visuals.js?v=field-cast-2';
+import {Farm,CROPS} from './farm.js?v=field-cast-2';
+import {Sniper} from './sniper.js?v=field-cast-2';
+import {UrbanRescue,URBAN_MISSION} from './urban-rescue.js?v=field-cast-2';
+import {config,finish,loadState,FARM_CHAPTERS,SNIPER_CHAPTERS,operationFor} from './state.js?v=field-cast-2';
+import {contractFor,deliver,rating,adoptExtras} from './economy.js?v=field-cast-2';
 
 const $=id=>document.getElementById(id);
 let storage;
@@ -174,10 +174,33 @@ function endMission(win,round){
  $('resultAction').onclick=()=>{$('modal').close();start()};
 }
 let down=null,activePointers=new Set();
-renderer.domElement.addEventListener('pointerdown',e=>{activePointers.add(e.pointerId);down=activePointers.size===1?{id:e.pointerId,lastX:e.clientX,lastY:e.clientY,moved:0}:null;renderer.domElement.setPointerCapture(e.pointerId)});
-renderer.domElement.addEventListener('pointermove',e=>{if(!down||activePointers.size!==1||down.id!==e.pointerId)return;let dx=e.clientX-down.lastX,dy=e.clientY-down.lastY;down.moved+=Math.abs(dx)+Math.abs(dy);if(game==='sniper')world.aim(dx,dy);down.lastX=e.clientX;down.lastY=e.clientY});
-renderer.domElement.addEventListener('pointerup',e=>{if(down&&down.id===e.pointerId&&activePointers.size===1&&down.moved<10&&game==='farm'){const r=renderer.domElement.getBoundingClientRect();world.pick((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1)}activePointers.delete(e.pointerId);down=null});
-renderer.domElement.addEventListener('pointercancel',e=>{activePointers.delete(e.pointerId);down=null});
+renderer.domElement.style.touchAction='none';
+renderer.domElement.addEventListener('pointerdown',e=>{
+ activePointers.add(e.pointerId);
+ if(!down)down={id:e.pointerId,lastX:e.clientX,lastY:e.clientY,moved:0};
+ renderer.domElement.setPointerCapture(e.pointerId);
+});
+renderer.domElement.addEventListener('pointermove',e=>{
+ if(!down||down.id!==e.pointerId)return;
+ const dx=e.clientX-down.lastX,dy=e.clientY-down.lastY;
+ down.moved+=Math.abs(dx)+Math.abs(dy);
+ if(game==='sniper')world.aim(dx,dy);
+ down.lastX=e.clientX;down.lastY=e.clientY;
+});
+function releaseAimPointer(e){
+ if(down?.id===e.pointerId){
+  if(e.type==='pointerup'&&down.moved<10&&game==='farm'){
+   const r=renderer.domElement.getBoundingClientRect();
+   world.pick((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);
+  }
+  down=null;
+ }
+ activePointers.delete(e.pointerId);
+}
+renderer.domElement.addEventListener('pointerup',releaseAimPointer);
+renderer.domElement.addEventListener('pointercancel',releaseAimPointer);
+renderer.domElement.addEventListener('lostpointercapture',releaseAimPointer);
+window.addEventListener('blur',()=>{down=null;activePointers.clear()});
 window.addEventListener('keydown',e=>{if($('modal').open||$('panel').open||game!=='sniper'||!world?.round)return;if(e.code==='Space'){e.preventDefault();world.fire()}if(e.repeat&&!e.code.startsWith('Arrow'))return;if(e.code==='KeyE')world.routeAction?.();if(e.code==='KeyR')world.reload();if(e.code==='KeyC'&&urbanMode&&world.round)$('cover').click();if(e.code==='KeyZ')$('scope').click();if(e.code==='KeyP')pause();if(e.code==='KeyF'&&world.round)$('focus').click();if(e.code.startsWith('Arrow')){e.preventDefault();world.aim(e.code==='ArrowLeft'?-12:e.code==='ArrowRight'?12:0,e.code==='ArrowUp'?-12:e.code==='ArrowDown'?12:0)}});
 function openPanel(kind){$('ranchCard').hidden=kind!=='ranch';$('panelNotice').hidden=true;$('missionCard').hidden=kind!=='mission';$('shopCard').hidden=kind!=='shop';$('quickStats').hidden=kind!=='mission';panelPause=world?.round&&!world.round.paused?world.round:null;if(panelPause)panelPause.paused=true;update();$('panel').showModal()}
 $('marketButton').onclick=()=>openPanel('mission');$('equipmentButton').onclick=()=>openPanel('shop');$('closePanel').onclick=()=>$('panel').close();$('panel').addEventListener('close',()=>{if(panelPause&&panelPause===world?.round)panelPause.paused=false;panelPause=null});$('journeyShortcut').onclick=()=>$('levelsButton').click();

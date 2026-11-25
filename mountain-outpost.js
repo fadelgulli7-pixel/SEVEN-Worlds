@@ -1,7 +1,7 @@
-import {dressOutpost,alpineTreeLine} from './field-design.js?v=field-20261125';
-import {T,mat,mesh,box,cyl,group,bevel,seed,mergeStatic} from './visuals.js?v=field-20261125';
-import {surface} from './surfaces.js?v=field-20261125';
-import {fieldTent,timberCrate,watchTower,campTerrain,campScatter,lampGlowMaterial,lampGlow} from './camp-detail.js?v=field-20261125';
+import {dressOutpost,alpineTreeLine} from './field-design.js?v=field-cast-2';
+import {T,mat,mesh,box,cyl,group,bevel,seed,mergeStatic} from './visuals.js?v=field-cast-2';
+import {surface} from './surfaces.js?v=field-cast-2';
+import {fieldTent,timberCrate,watchTower,campTerrain,campScatter,lampGlowMaterial,lampGlow} from './camp-detail.js?v=field-cast-2';
 import {HDRLoader} from './vendor/HDRLoader.js';
 let assets;
 export function loadCampAssets(){

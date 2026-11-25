@@ -1,4 +1,4 @@
-import {T,mesh,box,group,bevel,mat,seed} from './visuals.js?v=field-20261125';
+import {T,mesh,box,group,bevel,mat,seed} from './visuals.js?v=field-cast-2';
 export function pbr(kit,color,rx=1,ry=rx){const m=new T.MeshStandardMaterial({color,roughness:.93});for(const [k,t] of Object.entries(kit)){m[k]=t.clone();m[k].repeat.set(rx,ry)}m.normalScale.set(.65,.65);return m}
 export function beam(p,a,b,r,m){const aa=new T.Vector3(...a),bb=new T.Vector3(...b),o=mesh(new T.CylinderGeometry(r,r,aa.distanceTo(bb),8),m,p,...aa.clone().add(bb).multiplyScalar(.5).toArray());o.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),bb.sub(aa).normalize());return o}
 const smooth=x=>x*x*(3-2*x);

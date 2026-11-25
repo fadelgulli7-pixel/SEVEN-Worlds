@@ -83,3 +83,10 @@ body:not(.sniper) #shopText{font-size:12px;margin-top:0}body:not(.sniper) #shopC
  .urban.playing #urbanObjective{top:15px;left:18px;max-width:275px}.urban.playing #urbanDetail{font-size:9px;max-width:230px}.urban.playing #sniperHud{top:82px}.urban.playing #armorPanel{top:125px;left:68px}.urban.playing .pauseTool{top:122px}.urban.playing #compass{display:flex;top:20px}.urban.playing #minimap{right:67px;top:16px}.urban.playing #threatWarning{bottom:42px;font-size:9px}.urban.playing #worldMessage{bottom:83px;max-width:45%}.urban.playing #breathBar{bottom:94px;width:100px}.urban.playing #zoomControl{top:48%;right:24px}.urban.playing #combatSound{top:116px}.urban.playing .combatLeft{bottom:22px;left:23px;gap:10px}.urban.playing .combatTool{width:56px;height:56px}.urban.playing .reloadTool{right:122px;width:48px;height:48px}.urban.playing .scopeRing{width:83vh;height:83vh}
 }
 @media(max-width:370px){.urban.playing .combatLeft{left:12px;gap:5px}.urban.playing .combatTool{width:48px;height:52px}.urban.playing .fireButton{right:13px;width:72px;height:72px}.urban.playing .reloadTool{right:96px;width:43px;height:43px}.urban.playing #urbanDetail{font-size:9px}.urban.playing #minimap{width:47px;height:47px;right:60px}.briefAudio span{display:none}}
+
+/* Combat HUD and lens shading for the redesigned environments. */
+.urban.playing #sceneDecor{pointer-events:none;background:radial-gradient(ellipse at 50% 42%,transparent 48%,#111a202b 100%)}
+.urban.playing #urbanObjective{background:#101b22d9;border:1px solid #c3b79240;border-left:2px solid #c3b792;border-radius:3px;box-shadow:0 6px 22px #0002}
+.urban.playing button{border-radius:5px;backdrop-filter:blur(5px)}
+.urban.playing #targetInfo{letter-spacing:1px;border-radius:2px;background:#14201dd9}
+.urban.playing #fire{border-radius:50%;box-shadow:0 0 0 5px #15232a55,0 4px 24px #0005}
