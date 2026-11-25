@@ -1,8 +1,8 @@
-import {dressQuarter} from './field-design.js?v=field-cast-2';
-import {T,mat,mesh,box,ball,cyl,group,bevel,seed,mergeStatic} from './visuals.js?v=field-cast-2';
-import {surface} from './surfaces.js?v=field-cast-2';
-import {dressStreet,weatherFacade} from './urban-details.js?v=field-cast-2';
-import {abandonedCar} from './hero-assets.js?v=field-cast-2';
+import {dressQuarter} from './field-design.js?v=field-ridge-4';
+import {T,mat,mesh,box,ball,cyl,group,bevel,seed,mergeStatic} from './visuals.js?v=field-ridge-4';
+import {surface} from './surfaces.js?v=field-ridge-4';
+import {dressStreet,weatherFacade} from './urban-details.js?v=field-ridge-4';
+import {abandonedCar} from './hero-assets.js?v=field-ridge-4';
 
 let texturePromise;
 export function loadCityMaterials(){

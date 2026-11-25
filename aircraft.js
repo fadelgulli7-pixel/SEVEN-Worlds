@@ -1,4 +1,4 @@
-import {T,mat,mesh,bevel,box,ball,cyl,group} from './visuals.js?v=field-cast-2';
+import {T,mat,mesh,bevel,box,ball,cyl,group} from './visuals.js?v=field-ridge-4';
 export function rescueHelicopter(parent,x,z){
  const g=group(parent,x,.2,z),paint=mat(0x47595c,.46,.4),trim=mat(0x263437,.48,.55),glass=new T.MeshPhysicalMaterial({color:0x33515b,roughness:.08,metalness:.55,clearcoat:1});
  ball(g,0,1.55,0,1.12,.99,2.2,paint);ball(g,0,1.45,1.65,.9,.72,.8,paint);

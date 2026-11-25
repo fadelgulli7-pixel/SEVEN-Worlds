@@ -1,17 +1,17 @@
 import * as T from 'three';
 import {GLTFLoader} from './vendor/GLTFLoader.js';
 import {clone as cloneSkeleton} from './vendor/SkeletonUtils.js';
-import {box,mesh,group,mat,mergeStatic} from './visuals.js?v=field-cast-2';
+import {box,mesh,group,mat,mergeStatic} from './visuals.js?v=field-ridge-4';
 
 // The masters are decoded once. Each cast owns separate GPU resources, shared only
 // among that cast's actors, so leaving/reopening a mission cannot dispose a live cast.
 let libraryPromise;
 export function loadActorLibrary(buffers){
  if(!libraryPromise){
-  libraryPromise=Promise.all(['Vanguard','Michelle'].map(async name=>{
+  libraryPromise=Promise.all(['Tactical','Michelle','Vanguard'].map(async name=>{
    const data=buffers?.[name]??await fetch(new URL(`./assets/${name}.glb`,import.meta.url)).then(r=>{if(!r.ok)throw Error('Character download failed');return r.arrayBuffer()});
    return new GLTFLoader().parseAsync(data,'');
-  })).then(([soldier,civilian])=>({soldier,civilian})).catch(e=>{libraryPromise=null;throw e});
+  })).then(([soldier,civilian,teammate])=>({soldier,civilian,teammate})).catch(e=>{libraryPromise=null;throw e});
  }
  return libraryPromise;
 }
@@ -32,8 +32,8 @@ function fieldWeapon(p){
 
 export class CharacterCast{
  constructor(library){this.library=library;this.geometries=new Map();this.materials=new Map();this.textures=new Map();this.actors=[]}
- create(parent,{civilian=false,position=[0,0,0],phase=0,captive=false}={}){
-  const asset=civilian?this.library.civilian:this.library.soldier;
+ create(parent,{civilian=false,teammate=false,position=[0,0,0],phase=0,captive=false}={}){
+  const asset=civilian?this.library.civilian:teammate?this.library.teammate:this.library.soldier;
   const root=group(parent),rig=cloneSkeleton(asset.scene);root.add(rig);
   const bones={},skins=[];
   rig.traverse(o=>{

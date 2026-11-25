@@ -1,5 +1,5 @@
-import {T,mat,mesh,box,bevel,ball,cyl,group,seed,batchScenery,mergeStatic} from './visuals.js?v=field-cast-2';
-import {surface} from './surfaces.js?v=field-cast-2';
+import {T,mat,mesh,box,bevel,ball,cyl,group,seed,batchScenery,mergeStatic} from './visuals.js?v=field-ridge-4';
+import {surface} from './surfaces.js?v=field-ridge-4';
 const lavender=0x7042a1,cream=0xffe7b4,wood=0xc38c51;
 export function farmBarn(p,x,z,scale=1){
  const g=group(p,x,0,z);g.scale.setScalar(scale);
