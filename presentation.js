@@ -1,5 +1,5 @@
-import {T,mat,mesh,box,ball,cyl,group,seed,bevel} from './visuals.js?v=studio';
-import {surface} from './surfaces.js?v=studio';
+import {T,mat,mesh,box,ball,cyl,group,seed,bevel} from './visuals.js?v=field-20261125';
+import {surface} from './surfaces.js?v=field-20261125';
 
 export function farmNature(scene,land=0){
  const r=seed(4077),positions=[],colors=[],green=new T.Color();

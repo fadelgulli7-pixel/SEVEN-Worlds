@@ -1,9 +1,9 @@
-import {T,mat,mesh,box,bevel,ball,cyl,group,seed,terrainTexture,lightScene,fence,cow,chicken,batchScenery,mergeStatic,disposeWorld} from './visuals.js?v=studio';
+import {T,mat,mesh,box,bevel,ball,cyl,group,seed,terrainTexture,lightScene,fence,cow,chicken,batchScenery,mergeStatic,disposeWorld} from './visuals.js?v=field-20261125';
 import {OrbitControls} from './vendor/OrbitControls.js';
-import {environmentLight,surface} from './surfaces.js?v=studio';
-import {farmNature} from './presentation.js?v=studio';
-import {farmBarn,farmGround,goat,farmWorker,farmTruck,greenhouse} from './farm-art.js?v=studio';
-import {adoptFarm,SPECIES} from './farm-business.js?v=studio';
+import {environmentLight,surface} from './surfaces.js?v=field-20261125';
+import {farmNature} from './presentation.js?v=field-20261125';
+import {farmBarn,farmGround,goat,farmWorker,farmTruck,greenhouse} from './farm-art.js?v=field-20261125';
+import {adoptFarm,SPECIES} from './farm-business.js?v=field-20261125';
 export const CROPS=[{name:'Wheat',cost:4,value:8,seconds:14},{name:'Carrot',cost:7,value:14,seconds:22},{name:'Tomato',cost:10,value:20,seconds:30}];
 export class Farm{
  constructor(renderer,state,onPick){

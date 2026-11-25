@@ -1,6 +1,7 @@
-import {T,mat,mesh,box,cyl,group,bevel,seed,mergeStatic} from './visuals.js?v=studio';
-import {surface} from './surfaces.js?v=studio';
-import {fieldTent,timberCrate,watchTower,campTerrain,campScatter,lampGlowMaterial,lampGlow} from './camp-detail.js?v=studio';
+import {dressOutpost,alpineTreeLine} from './field-design.js?v=field-20261125';
+import {T,mat,mesh,box,cyl,group,bevel,seed,mergeStatic} from './visuals.js?v=field-20261125';
+import {surface} from './surfaces.js?v=field-20261125';
+import {fieldTent,timberCrate,watchTower,campTerrain,campScatter,lampGlowMaterial,lampGlow} from './camp-detail.js?v=field-20261125';
 import {HDRLoader} from './vendor/HDRLoader.js';
 let assets;
 export function loadCampAssets(){
@@ -15,7 +16,7 @@ function sign(p,text,x,y,z,w=3.5,accent='#ffd784'){const c=document.createElemen
 export function buildMountainOutpost(scene,kits){
  const p=group(scene),r=seed(77441),rock=pbr(kits[0],0xafa4a9,2,2),steel=mat(0x4a454e,.7,.3);
  const M={canvas:pbr(kits[2],0xbca78c,5,7),canvasDark:pbr(kits[2],0x867768,3,4),wood:pbr(kits[3],0xbdb7a6,1,1),iron:new T.MeshStandardMaterial({color:0x4b5050,roughness:.75,metalness:.45,...surface('metal')}),metal:new T.MeshStandardMaterial({color:0x63696a,roughness:.65,metalness:.65,...surface('metal')}),rope:mat(0x74705c),dark:mat(0x1e2524),lamp:new T.MeshStandardMaterial({color:0xffdcb0,emissive:0xffbb72,emissiveIntensity:2,roughness:.3})};M.canvas.side=M.canvasDark.side=T.DoubleSide;M.glow=lampGlowMaterial();M.window=new T.MeshStandardMaterial({color:0xbe9161,emissive:0xffb873,emissiveIntensity:.9,roughness:.2,metalness:.1,transparent:true,opacity:.8});
- campTerrain(p,kits);campScatter(p,rock,M);
+ campTerrain(p,kits);campScatter(p,rock,M);alpineTreeLine(p);dressOutpost(p,M.wood,M.iron);
  for(const [x,z,w,d] of [[-9,-13,5.5,7],[12,-13,6,7],[-12,-32,6,8],[-5.5,-43,5.5,7],[3,-47,5.5,7],[14,-44,5,7]])fieldTent(p,x,z,w,d,M);
  for(let i=0;i<20;i++){const x=(i%2?1:-1)*(9+r()*8),z=-4-r()*37;if(Math.hypot(x-8,z+27)>5)timberCrate(p,x,z,.75+r()*.6,M)}
  const towers=[watchTower(p,-6.3,-28,11.5,M),watchTower(p,10,-58,9,M),watchTower(p,-19,-56,9,M)];

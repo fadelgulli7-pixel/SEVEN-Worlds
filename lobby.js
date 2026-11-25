@@ -1,4 +1,4 @@
-import {loadState,SNIPER_CHAPTERS,operationFor} from './state.js?v=studio';
+import {loadState,SNIPER_CHAPTERS,operationFor} from './state.js?v=field-20261125';
 const $=id=>document.getElementById(id);
 const art=(view,cls='')=>`<svg class="${cls}" viewBox="${view}" aria-hidden="true"><image href="assets/sniper-reference.png" width="1024" height="1536"/></svg>`;
 const icons={missions:'<circle cx="12" cy="12" r="7"/><path d="M12 1v6m0 10v6M1 12h6m10 0h6"/><circle cx="12" cy="12" r="1"/>',gear:'<path d="M3 8h18v13H3zM8 8V3h8v5M3 13h18M9 11v4m6-4v4"/>',shop:'<path d="M2 3h3l3 13h11l3-10H6M8 21h1m9 0h1"/>',team:'<circle cx="9" cy="6" r="3"/><circle cx="18" cy="8" r="2"/><path d="M2 22v-6a7 7 0 0 1 14 0v6zM16 13a5 5 0 0 1 7 5v4h-5"/>'};

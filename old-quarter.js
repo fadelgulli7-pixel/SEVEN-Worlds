@@ -1,7 +1,8 @@
-import {T,mat,mesh,box,ball,cyl,group,bevel,seed,mergeStatic} from './visuals.js?v=studio';
-import {surface} from './surfaces.js?v=studio';
-import {dressStreet,weatherFacade} from './urban-details.js?v=studio';
-import {abandonedCar} from './hero-assets.js?v=studio';
+import {dressQuarter} from './field-design.js?v=field-20261125';
+import {T,mat,mesh,box,ball,cyl,group,bevel,seed,mergeStatic} from './visuals.js?v=field-20261125';
+import {surface} from './surfaces.js?v=field-20261125';
+import {dressStreet,weatherFacade} from './urban-details.js?v=field-20261125';
+import {abandonedCar} from './hero-assets.js?v=field-20261125';
 
 let texturePromise;
 export function loadCityMaterials(){
@@ -74,7 +75,7 @@ export function buildOldQuarter(scene,kits,hero){
  }
  // A shop-lined plaza terminates in a real open arcade, leaving the shooting lane clear.
  for(const x of [-11,0,11])facade(p,{x,z:-45,w:10.7,h:x===0?14:11,wall,brick,shop:x===0?'PLACE DES OLIVIERS':'SEVEN QUARTER',color:0xd0be9d});
- for(let x=-25;x<=25;x+=8){box(p,6,12+r()*12,8,0x9caaa7,x,7,-60);box(p,5,5,6,0xa9b1a9,x+3,10,-72)}
+ for(let x=-25;x<=25;x+=8){box(p,6,12+r()*12,8,material(wall,0x8d9997,[2,4]),x,7,-60);box(p,5,5,6,material(wall,0x89938e,[2,2]),x+3,10,-72)}
  for(const z of [6,-36])for(let x=-6;x<7;x+=1.2)box(p,.55,.008,2.3,0xd1cdb9,x,.02,z);
 
  if(hero){abandonedCar(p,hero.car,-6.5,-19,.08);abandonedCar(p,hero.car,6.5,-30,Math.PI+.1);}else car(p,-6.6,-19,.03,0x8caca4);
@@ -92,7 +93,7 @@ export function buildOldQuarter(scene,kits,hero){
  // Camera balcony behind the player: details add depth without hiding targets.
  box(p,8,2.55,8,brick,0,1.26,22);box(p,8.4,.2,8.4,0xc5b59c,0,2.65,22);box(p,8.4,.2,.4,0xa69a83,0,2.85,17.9);
  for(let i=0;i<18;i++){const x=(i%2?1:-1)*(8.4+r()*2),z=12-r()*52;box(p,.24,.035,.32,0x9a9481,x,.2,z).rotation.y=r()*6.2}
- mergeStatic(p);dressStreet(scene);
+ dressQuarter(p);mergeStatic(p);dressStreet(scene);
  const dustGeometry=new T.BufferGeometry(),dust=new Float32Array(90*3);for(let i=0;i<90;i++){dust[i*3]=(r()-.5)*17;dust[i*3+1]=r()*8+.3;dust[i*3+2]=r()*53-40}dustGeometry.setAttribute('position',new T.BufferAttribute(dust,3));const atmosphere=new T.Points(dustGeometry,new T.PointsMaterial({color:0xffdb9c,size:.025,transparent:true,opacity:.35,depthWrite:false}));atmosphere.userData.nonSolid=true;scene.add(atmosphere);
  return {environment:p,exit,ring,atmosphere};
 }

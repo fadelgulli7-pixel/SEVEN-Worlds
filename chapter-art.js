@@ -1,4 +1,4 @@
-import {T,box,cyl,mesh,group,mat} from './visuals.js?v=studio';
+import {T,box,cyl,mesh,group,mat} from './visuals.js?v=field-20261125';
 
 const skyColors = [
  ['#7196ab','#ffd99a',0xb1806f],['#8db9c0','#fce0a9',0xcba883],

@@ -1,4 +1,4 @@
-import {T,mesh,box,group,bevel,mat,seed} from './visuals.js?v=studio';
+import {T,mesh,box,group,bevel,mat,seed} from './visuals.js?v=field-20261125';
 export function pbr(kit,color,rx=1,ry=rx){const m=new T.MeshStandardMaterial({color,roughness:.93});for(const [k,t] of Object.entries(kit)){m[k]=t.clone();m[k].repeat.set(rx,ry)}m.normalScale.set(.65,.65);return m}
 export function beam(p,a,b,r,m){const aa=new T.Vector3(...a),bb=new T.Vector3(...b),o=mesh(new T.CylinderGeometry(r,r,aa.distanceTo(bb),8),m,p,...aa.clone().add(bb).multiplyScalar(.5).toArray());o.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),bb.sub(aa).normalize());return o}
 const smooth=x=>x*x*(3-2*x);
@@ -43,13 +43,13 @@ export function campTerrain(p,kits){const m=pbr(kits[1],0xd7d0bd,60,72);m.vertex
   for(let i=0;i<a.count;i++){
    const x=a.getX(i),z=a.getZ(i),envelope=Math.pow(Math.max(0,1-Math.pow(z/50,2)),1.1);
    const peak=(center,width,height)=>height*Math.exp(-Math.pow((x-center)/width,2));
-   const profile=6+peak(-24+band*7,23,37+band*4)+peak(-82,30,27)+peak(88-band*5,30,43);
+   const profile=6+peak(-55+band*7,27,24+band*4)+peak(-105,30,21)+peak(98-band*5,32,29);
    const saddle=1-.72*Math.exp(-Math.pow((x-32)/19,2));
    const ridge=1-Math.abs(2*noise(x*.16+band*7,z*.13)-1);
    const erosion=fbm(x*.055+band*7,z*.075)*.25+.9;
    a.setY(i,Math.max(0,envelope*(profile*saddle*erosion*.85+ridge*1.2)+fbm(x*.8,z*.6)*.6));
   }
-  g.computeVertexNormals();mesh(g,pbr(kits[0],[0xa397a7,0x8c829d,0x7e7b99][band],64,22),p,band*8,-1,-96-band*49).name='Folded mountain massif';
+  g.computeVertexNormals();mesh(g,pbr(kits[0],[0x8d8d82,0x808b8b,0x7c8e98][band],64,22),p,band*8,-1,-96-band*49).name='Folded mountain massif';
  }
 
 }
